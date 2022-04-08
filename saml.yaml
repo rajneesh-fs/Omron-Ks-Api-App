@@ -19,8 +19,8 @@ Parameters:
   LayerName:
     Description: Unique Layer Name for Layer Resources
     Type: String
-    AllowedValues: [ DEV_kitting_shipping, QA_kitting_shipping, STG_kitting_shipping, BETA_kitting_shipping, PRD_kitting_shipping ]
-    Default: DEV_kitting_shipping
+    AllowedValues: [ DEV_KITTING_SHIPPING, QA_KITTING_SHIPPING, STG_KITTING_SHIPPING, BETA_KITTING_SHIPPING, PRD_KITTING_SHIPPING ]
+    Default: DEV_KITTING_SHIPPING
 
   DDLayerName:
     Description: Unique Layer Name for Doctor Dash
