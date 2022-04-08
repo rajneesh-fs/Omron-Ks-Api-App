@@ -124,7 +124,7 @@ Resources:
           title: !Sub Omron-KS-API-${EnvironmentType}
           version: '2016-12-09T04:29:17Z'
         paths:
-          /custom-auth:
+          /order-details:
             post:
               consumes:
               - "application/json"
@@ -164,7 +164,7 @@ Resources:
                       method.response.header.Strict-Transport-Security: '''max-age=63072000; includeSubdomains; preload'''
                       method.response.header.X-XSS-Protection: '''1'''
                       method.response.header.X-Content-Type-Options: '''nosniff'''
-                      method.response.header.Access-Control-Allow-Origin: "*"
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
                       method.response.header.Cache-Control: '''no-cache; no-store'''
                       method.response.header.Pragma: '''no-cache'''
                 requestTemplates:
