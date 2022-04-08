@@ -124,7 +124,7 @@ Resources:
           title: !Sub Omron-KS-API-${EnvironmentType}
           version: '2016-12-09T04:29:17Z'
         paths:
-          /order-details:
+          /auth-test:
             post:
               consumes:
               - "application/json"
@@ -283,6 +283,13 @@ Resources:
           EC2_IP: !Sub ${EC2IP}
           PORT: !Sub ${PORT}
       FunctionName: !Sub ${Stage}_kitting_shipping_custom_authorization
+      Events:
+        GetResource:
+          Properties:
+            Method: POST
+            Path: /auth-test
+            RestApiId: !Ref OmronKittingShippingApi
+          Type: Api
       Handler: index.handler
       MemorySize: 512
       VpcConfig:
