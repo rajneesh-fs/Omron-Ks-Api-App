@@ -1,0 +1,37 @@
+{
+	"env": {
+	  "browser": true,
+	  "commonjs": true,
+	  "es6": true,
+	  "jest": true
+	},
+	"plugins": [
+	  "security"
+	],
+	"extends": ["standard", "plugin:security/recommended"],
+	"globals": {
+	  "Atomics": "readonly",
+	  "SharedArrayBuffer": "readonly"
+	},
+	"parserOptions": {
+	  "ecmaVersion": 2018
+	},
+	"rules": {
+	  "indent": ["error", "tab"],
+	  "semi": ["error", "always"],
+	  "no-mixed-spaces-and-tabs": 0,
+	  "no-tabs": 0,
+	  "no-var": 2,
+	  "security/detect-non-literal-fs-filename": 2,
+	  "security/detect-non-literal-regexp": 2,
+	  "security/detect-unsafe-regex": 2,
+	  "security/detect-buffer-noassert": 2,
+	  "security/detect-child-process": 2,
+	  "security/detect-disable-mustache-escape": 2,
+	  "security/detect-eval-with-expression": 2,
+	  "security/detect-no-csrf-before-method-override": 2,
+	  "security/detect-non-literal-require": 2,
+	  "security/detect-object-injection": 2,
+	  "security/detect-pseudoRandomBytes": 2
+	}
+  }

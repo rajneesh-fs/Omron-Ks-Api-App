@@ -1,0 +1,24 @@
+{
+  "Parameters" : {
+    "EnvironmentType" : "dev",
+    "AuthName" : "dev_kitting_shipping",
+    "LayerName" : "DEV_KITTING_SHIPPING",
+    "DDLayerName": "QA_VITALSIGHT_DOCTORDASH",
+    "IPLayerName": "QA_INTERNAL_PORTAL",
+    "Stage" : "dev_global",
+    "SecretString" : "{\n\"CLIENT_ID\": \"5gdn5fkdj3ce9f77sfgl5q99bo\",\n\"UPS_API_ACCESS_LICENCE_NUMBER\": \"5D8A2B432E86D5B5\",\n\"VERIFY_ADDRESS_USERNAME\": \"connectedrd\",\n\"VERIFY_ADDRESS_PASSWORD\": \"Omraddval321!\",\n\"USER_POOL_ID\": \"us-west-2_Hbo4j5pCS\"\n,\n\"CLIENT_ID_2\": \"\"\n}",
+    "WebUrl" : "https://internalportal-qa.ohiomron.com",
+    "CorsUrl" : "*",
+    "NotificationEmailFrom": "awsalert.staging@ohiomron.com",
+    "NotificationEmailTo": "awsalert.staging@ohiomron.com",
+    "DefaultOnBoardingCompletedDate": "1622505600000",
+    "EC2IP": "10.0.0.23",
+    "PORT": "8085",
+    "PrivateSubnetID1": "subnet-06038a8df5f7a0c45",
+    "PrivateSubnetID2": "subnet-01d9f1ffc16c25427",
+    "SecurityGroupID1": "sg-08cd4d3a9a0df6ff4"
+  },
+  "Tags" : {
+    "Project" : "Kitting-shipping"
+  }
+}

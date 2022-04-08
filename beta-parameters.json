@@ -1,0 +1,24 @@
+{
+	"Parameters" : {
+	  "EnvironmentType" : "beta",
+	  "AuthName" : "beta_kitting_shipping",
+	  "LayerName" : "BETA_KITTING_SHIPPING",
+	  "DDLayerName": "BETA_VITALSIGHT_DOCTORDASH",
+	  "IPLayerName": "BETA_INTERNAL_PORTAL",
+	  "Stage" : "beta_global",
+	  "SecretString" : "{\n\"CLIENT_ID\": \"1pd3l8lbhe558hhv6lab2roufa\",\n\"UPS_API_ACCESS_LICENCE_NUMBER\": \"5D8A2B432E86D5B5\",\n\"VERIFY_ADDRESS_USERNAME\": \"connectedrd\",\n\"VERIFY_ADDRESS_PASSWORD\": \"Omraddval321!\",\n\"USER_POOL_ID\": \"us-west-2_z5Ab2E75l\"\n}",
+	  "WebUrl" : "https://kittingshipping-beta.ohiomron.com",
+	  "CorsUrl" : "https://kittingshipping-beta.ohiomron.com",
+	  "NotificationEmailFrom": "awsalert.staging@ohiomron.com",
+	  "NotificationEmailTo": "awsalert.staging@ohiomron.com",
+	  "DefaultOnBoardingCompletedDate": "1609459200000",
+	  "EC2IP": "10.0.11.208",
+	  "PORT": "8085",
+	  "PrivateSubnetID1": "subnet-06038a8df5f7a0c45",
+	  "PrivateSubnetID2": "subnet-01d9f1ffc16c25427",
+	  "SecurityGroupID1": "sg-08cd4d3a9a0df6ff4"
+	},
+	"Tags" : {
+	  "Project" : "Kitting-shipping"
+	}
+}

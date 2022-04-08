@@ -1,0 +1,57 @@
+[
+	{
+		"key": "preferences",
+		"type": "JSON",
+		"value": {
+		  "address": "address",
+		  "firstReading": "First reading",
+		  "homePhone": "Home Phone Number",
+		  "hubIMFI": "Hub IMFI",
+		  "lastReading": "Last reading",
+		  "phone": "Mobile Phone Number",
+		  "serviceCode99453": "Date of Service (Code 99453)",
+		  "serviceCode99454": "Date of Service (Code 99454)",
+		  "totalReadings": "Total Number of Readings"
+		}
+	},
+	{
+		"key": "orderActionReasons",
+		"type": "JSON",
+		"value": {
+			"terminate": [
+				"Patient states that the provider did not give them enough information about being signed up on the program",
+				"Patient did not know they were going to have to use it “so often” ",
+				"Patient has reached their health goals and no longer wishes to be a part of the program",
+				"Patient states that the readings are too high/ too low compared to other machines",
+				"Patient has expired",
+				"Patient has changed providers",
+				"Patient has moved",
+				"Patient changed insurance policies",
+				"Too expensive",
+				"Patient does not wish to be a part of the program",
+				"Other"
+			  ],
+			"replace": [
+				"BP cuff too small",
+				"BP cuff too big",
+				"Scale not working (comments section)",
+				"Never received a scale/BP",
+				"BP/scale will not turn on & replacing batteries doesn’t work",
+				"Other"
+			  ],
+			"cancel": [
+				"Patient states that the provider did not give them enough information about being signed up on the program",
+				"Patient did not know they were going to have to use it “so often” ",
+				"Patient has reached their health goals and no longer wishes to be a part of the program",
+				"Patient states that the readings are too high/ too low compared to other machines",
+				"Patient has expired",
+				"Patient has changed providers",
+				"Patient has moved",
+				"Patient changed insurance policies",
+				"Too expensive",
+				"Patient does not wish to be a part of the program",
+				"Other"
+			  ]
+		  }
+	}
+]

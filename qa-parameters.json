@@ -1,0 +1,24 @@
+{
+	"Parameters" : {
+	  "EnvironmentType" : "qa",
+	  "AuthName" : "qa_kitting_shipping",
+	  "LayerName" : "QA_KITTING_SHIPPING",
+	  "DDLayerName" : "QA_VITALSIGHT_DOCTORDASH",
+	  "IPLayerName": "QA_INTERNAL_PORTAL",
+	  "Stage" : "qa_global",
+	  "SecretString" : "{\n\"CLIENT_ID\": \"75ovpfq69olg2vhq69b663robm\",\n\"UPS_API_ACCESS_LICENCE_NUMBER\": \"5D8A2B432E86D5B5\",\n\"VERIFY_ADDRESS_USERNAME\": \"connectedrd\",\n\"VERIFY_ADDRESS_PASSWORD\": \"Omraddval321!\",\n\"USER_POOL_ID\": \"us-west-2_7RDlCMPWI\"\n,\n\"CLIENT_ID_2\": \"\"\n}",
+	  "WebUrl" : "https://kittingshipping-qa.ohiomron.com",
+	  "CorsUrl" : "https://kittingshipping-qa.ohiomron.com",
+	  "NotificationEmailFrom": "awsalert.staging@ohiomron.com",
+	  "NotificationEmailTo": "awsalert.staging@ohiomron.com",
+	  "DefaultOnBoardingCompletedDate": "1622505600000",
+	  "EC2IP": "10.0.0.23",
+	  "PORT": "8084",
+	  "PrivateSubnetID1": "subnet-06038a8df5f7a0c45",
+	  "PrivateSubnetID2": "subnet-01d9f1ffc16c25427",
+	  "SecurityGroupID1": "sg-08cd4d3a9a0df6ff4"
+	},
+	"Tags" : {
+	  "Project" : "Kitting-shipping"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"Parameters" : {
+	  "EnvironmentType" : "prd",
+	  "AuthName" : "prd_kitting_shipping",
+	  "LayerName" : "PRD_KITTING_SHIPPING",
+	  "DDLayerName": "PRD_VITALSIGHT_DOCTORDASH",
+	  "IPLayerName": "PRD_INTERNAL_PORTAL",
+	  "Stage" : "prd_global",
+	  "SecretString" : "",
+	  "WebUrl" : "https://portal.ohiomron.com",
+	  "CorsUrl" : "https://portal.ohiomron.com",
+	  "NotificationEmailFrom": "awsalert@ohiomron.com",
+	  "NotificationEmailTo": "awsalert@ohiomron.com",
+	  "DefaultOnBoardingCompletedDate": "1609459200000",
+	  "EC2IP": "192.168.56.94",
+	  "PORT": "8084",
+	  "PrivateSubnetID1": "subnet-5aa66311",
+	  "PrivateSubnetID2": "subnet-a524ffdc",
+	  "SecurityGroupID1": "sg-1fb0bd60"
+	},
+	"Tags" : {
+	  "Project" : "Internal-portal"
+	}
+}

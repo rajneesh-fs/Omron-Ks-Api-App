@@ -1,0 +1,298 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Omron-KS-APP-API
+
+Parameters:
+
+  EnvironmentType:
+    Description: An environment type Develop/QA/Staging/Beta/Production.
+    Type: String
+    AllowedValues: [ dev, qa, stg, beta, prd ]
+    Default: dev
+
+  AuthName:
+    Description: Unique Auth Name for Resources
+    Type: String
+    AllowedValues: [ dev_kitting_shipping, qa_kitting_shipping, stg_kitting_shipping, beta_kitting_shipping, prd_kitting_shipping ]
+    Default: dev_kitting_shipping
+
+  LayerName:
+    Description: Unique Layer Name for Layer Resources
+    Type: String
+    AllowedValues: [ DEV_kitting_shipping, QA_kitting_shipping, STG_kitting_shipping, BETA_kitting_shipping, PRD_kitting_shipping ]
+    Default: DEV_kitting_shipping
+
+  DDLayerName:
+    Description: Unique Layer Name for Doctor Dash
+    Type: String
+    AllowedValues: [ QA_VITALSIGHT_DOCTORDASH, STG_VITALSIGHT_DOCTORDASH, BETA_VITALSIGHT_DOCTORDASH, PRD_VITALSIGHT_DOCTORDASH ]
+    Default: QA_VITALSIGHT_DOCTORDASH
+
+  IPLayerName:
+    Description: Unique Layer Name for Internal Portal
+    Type: String
+    AllowedValues: [ QA_INTERNAL_PORTAL, STG_INTERNAL_PORTAL, BETA_INTERNAL_PORTAL, PRD_INTERNAL_PORTAL ]
+    Default: QA_INTERNAL_PORTAL
+
+  Stage:
+    Description: Unique stage type Develop/QA/Staging/Beta/Production.
+    Type: String
+    AllowedValues: [ dev_global, qa_global, stg_global, beta_global, prd_global ]
+    Default: dev_global
+
+  SecretString:
+    Description: Unique Secret String for Develop/QA/Staging/Beta/Production.
+    Type: String
+
+  WebUrl:
+    Description: Web Url for Develop/QA/Staging/Beta/Production.
+    Type: String
+
+  CorsUrl:
+    Description: Cors Url for Develop/QA/Staging/Beta/Production.
+    Type: String
+
+  NotificationEmailFrom:
+    Description: Notification Email From
+    Type: String
+
+  NotificationEmailTo:
+    Description: Notification Email To
+    Type: String
+
+  DefaultOnBoardingCompletedDate:
+    Description: Default OnBoarding Completed Date
+    Type: String
+
+  EC2IP:
+    Description: Private IP address of EC2 instance that is used for caching
+    Type: String
+    Default: 10.0.0.23
+
+  PORT:
+    Description: Port for communication between EC2 cache and lambda functions
+    Type: String
+    Default: 8084
+
+  PrivateSubnetID1:
+    Description: Private subnet ID 1 for VPC configuration
+    Type: String
+    Default: subnet-06038a8df5f7a0c45
+
+  PrivateSubnetID2:
+    Description: Private subnet ID 2 for VPC configuration
+    Type: String
+    Default: subnet-01d9f1ffc16c25427
+
+  SecurityGroupID1:
+    Description: Security group ID for VPC configuration
+    Type: String
+    Default: sg-08cd4d3a9a0df6ff4
+
+Conditions:
+
+    CreateDev: !Equals [ !Ref EnvironmentType, dev]
+
+    CreateQa: !Equals [ !Ref EnvironmentType, qa]
+
+    CreateStg: !Equals [ !Ref EnvironmentType, stg]
+
+    CreatePrd: !Equals [ !Ref EnvironmentType, prd]
+
+    CreateNotPrd: !Not [!Equals [ !Ref EnvironmentType, prd]]
+
+    CreateDevQa: !Or [!Equals [ !Ref EnvironmentType, dev], !Equals [!Ref EnvironmentType, qa]]
+
+    CreateStgPrd: !Or [!Equals [ !Ref EnvironmentType, stg], !Equals [!Ref EnvironmentType, prd]]
+
+Resources:
+  OmronKittingShippingApi:
+    Properties:
+      MethodSettings:
+      - LoggingLevel: INFO
+        ResourcePath: '/*'
+        HttpMethod: '*'
+        DataTraceEnabled: true
+        MetricsEnabled: false
+      DefinitionBody:
+        basePath: !Join [ "/", [ !Ref EnvironmentType ] ]
+        definitions:
+          Empty:
+            title: Empty Schema
+            type: object
+        info:
+          title: !Sub Omron-KS-API-${EnvironmentType}
+          version: '2016-12-09T04:29:17Z'
+        paths:
+          /custom-auth:
+            post:
+              consumes:
+              - "application/json"
+              produces:
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    X-Frame-Options:
+                      type: "string"
+                    Strict-Transport-Security:
+                      type: "string"
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    X-Content-Type-Options:
+                      type: "string"
+                    X-XSS-Protection:
+                      type: "string"
+                    Cache-Control:
+                      type: "string"
+                    Pragma:
+                      type: "string"
+              security:
+              - kitting_shipping_authorizer: []
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Stage}_kitting_shipping_custom_authorization/invocations
+                type: "aws"
+                responses:
+                  default:
+                    statusCode: '200'
+                    responseParameters:
+                      method.response.header.X-Frame-Options: '''DENY'''
+                      method.response.header.Strict-Transport-Security: '''max-age=63072000; includeSubdomains; preload'''
+                      method.response.header.X-XSS-Protection: '''1'''
+                      method.response.header.X-Content-Type-Options: '''nosniff'''
+                      method.response.header.Access-Control-Allow-Origin: "*"
+                      method.response.header.Cache-Control: '''no-cache; no-store'''
+                      method.response.header.Pragma: '''no-cache'''
+                requestTemplates:
+                  application/json: "{\n\"body\" : $input.json('$'),\n\"userId\": \"$context.authorizer.userId\"\
+                    ,\n\"name\": \"$context.authorizer.name\",\n\"role\": \"$context.authorizer.role\"\
+                    ,\n\"headers\": {\n        #foreach($param in $input.params().header.keySet())\n\
+                    \        \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\"\
+                    \n        #if($foreach.hasNext),#end\n        #end\n    }\n}"
+                passthroughBehavior: "when_no_templates"
+                httpMethod: "POST"
+            options:
+              consumes:
+              - application/json
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: '200'
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Methods: '''OPTIONS,POST'''
+                      method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                requestTemplates:
+                  application/json: "{\"statusCode\": 200}"
+                passthroughBehavior: "when_no_match"
+                type: mock
+        schemes:
+        - https
+        securityDefinitions:
+          api_key:
+            in: header
+            name: x-api-key
+            type: apiKey
+          kitting_shipping_authorizer:
+            in: header
+            name: Authorization
+            type: apiKey
+            x-amazon-apigateway-authorizer:
+              authorizerResultTtlInSeconds: 0
+              authorizerUri: 
+                Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${Stage}_kitting_shipping_custom_authorization/invocations
+              type: token
+            x-amazon-apigateway-authtype: custom
+        sigv4:
+          in: header
+          name: Authorization
+          type: apiKey
+        x-amazon-apigateway-authtype: awsSigv4
+        swagger: '2.0'
+        x-amazon-apigateway-gateway-responses:
+          UNAUTHORIZED:
+            statusCode: 401
+            responseParameters:
+              gatewayresponse.header.X-Content-Type-Options: "'nosniff'"
+              gatewayresponse.header.X-XSS-Protection: "'1'"
+              gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+              gatewayresponse.header.X-Frame-Options: "'DENY'"
+            responseTemplates:
+              application/json: "{\"success\":false, \"message\":$context.error.messageString}"
+          DEFAULT_4XX:
+            responseTemplates:
+              application/json: '{"success": "false", "error":$context.error.messageString}'
+          DEFAULT_5XX:
+            responseTemplates:
+              application/json: '{"success": "false", "error":$context.error.messageString}'
+        x-amazon-apigateway-request-validators:
+          Validate query string parameters and headers:
+            validateRequestBody: false
+            validateRequestParameters: true
+      StageName: !Sub ${EnvironmentType}
+    Type: AWS::Serverless::Api
+
+  GWAuthPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref kittingShippingCustomAuthorization
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${OmronKittingShippingApi}/authorizers/*
+  kittingShippingSecretLayer:
+    Properties:
+      LayerName: !Sub ${AuthName}_secret_layer
+      ContentUri: ./utils
+      CompatibleRuntimes:
+        - nodejs12.x
+        - nodejs14.x
+      RetentionPolicy: Delete
+    Type: AWS::Serverless::LayerVersion
+  kittingShippingCustomAuthorization:
+    Properties:
+      CodeUri: ./custom_authorization
+      Description: ''
+      Layers:
+        - !Ref kittingShippingSecretLayer
+      Environment:
+        Variables:
+          REGION:
+            Ref: AWS::Region
+          STAGE: !Sub ${Stage}
+          USER_TABLE: !Sub ${Stage}_portal_user
+          USER_TOKEN_TRACK_TABLE: !Sub ${Stage}_portal_user_token_track
+          SECRET_MANAGER_NAME: !Sub ${IPLayerName}_SECRETMANAGER
+          EC2_IP: !Sub ${EC2IP}
+          PORT: !Sub ${PORT}
+      FunctionName: !Sub ${Stage}_kitting_shipping_custom_authorization
+      Handler: index.handler
+      MemorySize: 512
+      VpcConfig:
+        SecurityGroupIds:
+        - !Sub ${SecurityGroupID1}
+        SubnetIds:
+        - !Sub ${PrivateSubnetID1}
+        - !Sub ${PrivateSubnetID2}
+      Role:
+        Fn::Sub: arn:aws:iam::${AWS::AccountId}:role/service-role/lambda_basic_execution
+      Runtime: nodejs14.x
+      Timeout: 30
+    Type: AWS::Serverless::Function

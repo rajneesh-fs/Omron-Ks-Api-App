@@ -1,0 +1,13 @@
+node_modules/
+.vscode
+dist/
+buildspec.yml
+prdvs-buildspec.yml
+prdvs-saml.yaml
+saml.yaml
+stgvs-buildspec.yml
+stgvs-saml.yaml
+east-us-stgvs-saml.yaml
+east-us-stgvs-buildspec.yml
+east-us-prdvs-saml.yaml
+east-us-prdvs-buildspec.yml
