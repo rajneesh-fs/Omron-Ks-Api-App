@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  variables:
+    INPUT_FILE: "saml.yaml"
+    S3_BUCKET: ""
+  exported-variables:
+    - event_json
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
+  build:
+    commands:
+      - echo Installing Node Modules...
+      - pwd
+      - cd custom_authorization && npm install --only=production
+      - cd - && cd utils && mkdir -p nodejs/node_modules/utils && mv index.js package.json nodejs/node_modules/utils
+      - cd - && event_json=$(cat portalconfig.json)
+      - npm install
+      - echo Running eslint...
+      - npm run lint
+      - aws cloudformation package --template $INPUT_FILE --s3-bucket $S3_BUCKET --output-template post-saml.yaml
+artifacts:
+  files:
+    - post-saml.yaml
